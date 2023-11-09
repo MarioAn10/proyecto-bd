@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe(res => { 
       //logica si loguea o no
       console.log(res);
-    })
+    });
 
     this.submitted = true;
     alert(JSON.stringify(this.loginForm.value));
