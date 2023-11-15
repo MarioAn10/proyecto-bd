@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
     InputTextModule,
     ButtonModule,
     MessagesModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
