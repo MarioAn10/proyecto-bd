@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-users',
@@ -13,9 +13,14 @@ export class UsersComponent {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUsers().then(data => {
-      this.users = data;
-    });
+    this.userService.getUsers()
+      .then(
+        data => {
+          this.users = data;
+        })
+      .catch(
+        err => console.error('Error al cargar los usuarios', err)
+      );
 
     this.cols = [
       { field: 'login', header: 'Usuario' },
