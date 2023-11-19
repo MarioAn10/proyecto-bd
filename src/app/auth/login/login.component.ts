@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/services/login/auth.service';
 
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/login/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   public loginForm: FormGroup;
   public submitted: boolean;
@@ -23,13 +24,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    /*
     this.authService.login(this.loginForm.value).subscribe(res => { 
       //logica si loguea o no
       console.log(res);
     });
+    */
 
     this.submitted = true;
     alert(JSON.stringify(this.loginForm.value));
+    this.router.navigate(['menu']);
   }
 }
 
