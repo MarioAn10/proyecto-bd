@@ -6,7 +6,7 @@
           <div class="field p-fluid mt-4">
             <input pInputText type="text" placeholder="Usuario" formControlName="user" class="form-control w-full mb-3"
               name="user">
-  
+
             <div [hidden]="loginForm.controls['user'].valid || !loginForm.controls['user'].dirty">
               <small id="username-help" class="p-error">Ingrese su usuario.</small>
             </div>
@@ -26,3 +26,4 @@
     </div>
   </div>
 </div>
+<router-outlet></router-outlet>
