@@ -4,10 +4,10 @@
       <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
         <p-panel header="Iniciar Sesion">
           <div class="field p-fluid mt-4">
-            <input pInputText type="text" placeholder="Usuario" formControlName="user" class="form-control w-full mb-3"
-              name="user">
+            <input pInputText type="text" placeholder="Usuario" formControlName="userName"
+              class="form-control w-full mb-3" name="userName">
 
-            <div [hidden]="loginForm.controls['user'].valid || !loginForm.controls['user'].dirty">
+            <div [hidden]="loginForm.controls['userName'].valid || !loginForm.controls['userName'].dirty">
               <small id="username-help" class="p-error">Ingrese su usuario.</small>
             </div>
           </div>

@@ -17,23 +17,32 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      'user': new FormControl('', Validators.required),
+      'userName': new FormControl('', Validators.required),
       'password': new FormControl('', Validators.required)
     });
     this.submitted = false;
   }
 
   onSubmit() {
-    /*
-    this.authService.login(this.loginForm.value).subscribe(res => { 
-      //logica si loguea o no
-      console.log(res);
-    });
-    */
 
+    console.log(this.loginForm.value);
     this.submitted = true;
-    alert(JSON.stringify(this.loginForm.value));
-    this.router.navigate(['menu']);
+
+    this.authService
+      .login(this.loginForm.value)
+      .then(
+        res => {
+          if (res) {
+            // TO-DO: Agregar logica para localStorage de la sesion
+            alert(JSON.stringify(this.loginForm.value));
+            this.router.navigate(['menu']);
+          } else {
+            // Agregar mensaje de credenciales incorrectas
+            console.error('Credenciales incorrectas');
+          }
+        })
+      .catch(err => console.error('Error', err)
+      );
   }
 }
 
