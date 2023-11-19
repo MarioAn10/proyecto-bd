@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ToolbarModule } from 'primeng/toolbar';
     ButtonModule,
     MenubarModule,
     TableModule,
-    ToolbarModule
+    ToolbarModule,
+    ToastModule,
   ]
 })
 export class PrimeNgModule { }
