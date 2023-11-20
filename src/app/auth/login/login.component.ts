@@ -5,7 +5,7 @@ import * as CryptoJS from 'crypto-js';
 
 import { MessageService } from 'primeng/api';
 
-import { LoginDTO } from 'src/app/models/loginDTO';
+import { LoginDTO } from 'src/app/models/userDTO';
 
 import { AuthService } from 'src/app/services/login/auth.service';
 

@@ -8,6 +8,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { ToastModule } from 'primeng/toast';
     TableModule,
     ToolbarModule,
     ToastModule,
+    DialogModule,
+    DropdownModule
   ]
 })
 export class PrimeNgModule { }
