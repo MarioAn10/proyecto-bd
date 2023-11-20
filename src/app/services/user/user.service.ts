@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environments } from 'src/app/endpoints';
+import { LoginDTO } from '../../models/userDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,14 @@ export class UserService {
   // Agregar tipo de retorno
   getUsers() {
     return Promise.resolve(this.getUsersData());
+  }
+
+  // Funcionalidad dummy
+  addUser(users: LoginDTO[], newUser: LoginDTO) {
+    return Promise.resolve(this.addUserData(users, newUser));
+  }
+
+  addUserData(users: LoginDTO[], newUser: LoginDTO) {
+    users.push(newUser);
   }
 }

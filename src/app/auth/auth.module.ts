@@ -13,10 +13,10 @@ import { LoginComponent } from './login/login.component';
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule,
-    PrimeNgModule,
     FormsModule,
     ReactiveFormsModule,
+    AuthRoutingModule,
+    PrimeNgModule,
   ],
 })
 export class AuthModule { }

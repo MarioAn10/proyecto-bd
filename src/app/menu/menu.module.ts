@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { LayoutComponent } from './layout/layout.component';
 import { UsersComponent } from './users/users.component';
 import { MenuRoutingModule } from './menu-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -17,6 +18,8 @@ import { MenuRoutingModule } from './menu-routing.module';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     PrimeNgModule,
     MenuRoutingModule,
     SharedModule
