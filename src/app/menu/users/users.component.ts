@@ -16,7 +16,8 @@ export class UsersComponent {
   pattern: RegExp = new RegExp('/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;');
   isEmail: boolean = true;
 
-  createUserDialog: boolean;
+  userDialog: boolean;
+  dialogHeader: string;
 
   submitted: boolean;
 
@@ -32,11 +33,12 @@ export class UsersComponent {
   ) { }
 
   ngOnInit() {
-    // Validar implementacion - modelo
+    // TODO: Validar implementacion - modelo
     this.types = [
       { name: 'Piloto', code: 'P' },
       { name: 'Auxiliar de vuelo', code: 'AV' },
-      { name: 'Administrativo', code: 'A' }
+      { name: 'Administrativo', code: 'A' },
+      { name: 'No encontrado', code: '' }
     ];
 
     this.statuses = [
@@ -49,56 +51,85 @@ export class UsersComponent {
       .catch(err => console.error('Error al cargar los usuarios', err));
 
     this.cols = [
-      { field: 'login', header: 'Usuario' },
-      { field: 'nombre', header: 'Nombre' },
-      { field: 'apellido', header: 'Apellido' },
-      { field: 'correo', header: 'Correo' },
-      { field: 'tipo', header: 'Tipo' },
-      { field: 'estado', header: 'Estado' },
+      { field: 'userName', header: 'Usuario' },
+      { field: 'name', header: 'Nombre' },
+      { field: 'address', header: 'Apellido' },
+      { field: 'email', header: 'Correo' },
+      { field: 'type', header: 'Tipo' },
+      { field: 'status', header: 'Estado' },
     ];
-  }
-
-  openNew() {
-    this.resetUser();
-    this.submitted = false;
-    this.createUserDialog = true;
   }
 
   saveUser() {
     this.submitted = true;
-    console.log('Usuario a crear: ', this.user);
 
-    this.userService.addUser(this.users, this.user)
-      .then(
-        res => {
-          this.pushMessage('success', 'Usuario creado exitosamente');
-          console.log(this.users);
-        }
-      )
-      .catch(
-        err => this.pushMessage('error', `'No fue posible crear el usuario: ${err}`)
-      );
+    console.log('Usuario del momento', this.user);
 
-    // pendiente hacer reload de datos - en teoria, se consultan nuevamente de la BD
+    if (this.user.userName?.trim()) {
+      if (this.findUserIndexById(this.user.userName) !== -1) {
+        // TODO: Modificar logica para consumir servicio
+        this.users[this.findUserIndexById(this.user.userName)] = this.user;
+        this.pushMessage('success', 'Usuario editado exitosamente')
+      } else {
+        this.userService.addUser(this.users, this.user)
+          .then(
+            res => {
+              this.pushMessage('success', 'Usuario creado exitosamente');
+            }
+          )
+          .catch(
+            err => this.pushMessage('error', `'No fue posible crear el usuario: ${err}`)
+          );
+      }
+    }
+    // TODO: hacer reload de datos con el servicio
     this.users = [...this.users];
-    this.createUserDialog = false;
+    this.userDialog = false;
     this.resetUser();
   }
 
+  findUserIndexById(userName: string): number {
+    let index = -1;
+    for (let i = 0; i < this.users.length; i++) {
+      if (this.users[i].userName === userName) {
+        index = i;
+        break;
+      }
+    }
+    return index;
+  }
+
   resetUser() {
-    this.user = {
-      userName: '',
-      password: '',
-      name: '',
-      address: '',
-      email: '',
-      type: '',
-      status: ''
-    };
+    this.user = {};
+  }
+
+  openNew() {
+    this.resetUser();
+    this.dialogHeader = 'Nuevo Usuario';
+    this.submitted = false;
+    this.userDialog = true;
+  }
+
+  openEdit(user: LoginDTO) {
+    if (this.validateSelectedUser()) {
+      this.dialogHeader = 'Editar Usuario';
+      this.user = { ...user };
+      this.submitted = false;
+      this.userDialog = true;
+    }
+  }
+
+  validateSelectedUser(): boolean {
+    if (this.user === undefined) {
+      this.pushMessage('info', 'Debe seleccionar un usuario para poder editar');
+      return false;
+    } else {
+      return true;
+    }
   }
 
   hideDialog() {
-    this.createUserDialog = false;
+    this.userDialog = false;
     this.submitted = false;
   }
 
@@ -108,5 +139,23 @@ export class UsersComponent {
     setTimeout(() => {
       this.messages = [];
     }, 10000);
+  }
+
+  onRowSelect(event: any) {
+    this.user = { ...event.data };
+  }
+
+  onRowUnselect(event: any) {
+    this.resetUser();
+  }
+
+  getTypeValueByCode(code: string): string {
+    const type = this.types.find(t => t.code === code);
+    return type ? type.name : '';
+  }
+
+  getStatusValueByCode(code: string): string {
+    const status = this.statuses.find(s => s.code === code);
+    return status ? status.name : '';
   }
 }
