@@ -12,32 +12,32 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   // Funcionalidad Dummy
-  getUsersData() {
+  getUsersData(): LoginDTO[] {
     return [
       {
-        login: 'mmartinezg',
-        nombre: 'Mario',
-        apellidos: 'Martinez García',
-        correo: 'mmartinezg@unbosque.edu.co',
-        tipo: 'Piloto',
-        estado: 'activo'
+        userName: 'mmartinezg',
+        name: 'Mario',
+        address: 'Martinez García',
+        email: 'mmartinezg@unbosque.edu.co',
+        type: 'P',
+        status: '1'
       },
       {
-        login: 'dvmurcia',
-        nombre: 'Daniela',
-        apellidos: 'Murcia Muñoz',
-        correo: 'dvmurcia@unbosque.edu.co',
-        tipo: 'Piloto',
-        estado: 'activo'
+        userName: 'dvmurcia',
+        name: 'Daniela',
+        address: 'Murcia Muñoz',
+        email: 'dvmurcia@unbosque.edu.co',
+        type: 'P',
+        status: '1'
       },
       {
-        login: 'jdserrano',
-        nombre: 'Dayana',
-        apellidos: 'Serrano Castañeda',
-        correo: 'jdserrano@unbosque.edu.co',
-        tipo: 'Administrativo',
-        estado: 'inactivo'
-      }
+        userName: 'jdserrano',
+        name: 'Dayana',
+        address: 'Serrano Castañeda',
+        email: 'jdserrano@unbosque.edu.co',
+        type: 'A',
+        status: '0'
+      },
     ];
   }
 

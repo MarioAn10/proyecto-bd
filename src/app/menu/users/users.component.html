@@ -1,29 +1,44 @@
 <p-messages [(value)]="messages" [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'"></p-messages>
-<p-table [columns]="cols" [value]="users" [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table selectionMode="single" [columns]="cols" [value]="users" [scrollable]="true"
+    [tableStyle]="{ 'min-width': '50rem' }" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
     <ng-template pTemplate="caption">
         <div class="flex">
             <button pButton pRipple label="Agregar" icon="pi pi-plus" class="p-button-success mr-2"
                 (click)="openNew()"></button>
+            <button pButton pRipple label="Editar" icon="pi pi-pencil" class="p-button-info mr-2"
+                (click)="openEdit(user)"></button>
             <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger mr-2"></button>
             <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help ml-auto"></button>
         </div>
     </ng-template>
-    <ng-template pTemplate="header" let-columns>
+    <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of columns">
-                {{ col.header }}
+            <th style="width: 3rem">
             </th>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo</th>
+            <th>Tipo</th>
+            <th>Estado</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <ng-template pTemplate="body" let-user let-types let-statuses>
         <tr>
-            <td *ngFor="let col of columns">
-                {{ rowData[col.field] }}
+            <td>
+                <p-tableRadioButton [value]="user"></p-tableRadioButton>
             </td>
+            <td>{{user.userName}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.address}}</td>
+            <td>{{user.email}}</td>
+            <td>{{getTypeValueByCode(user.type)}}</td>
+            <td>{{getStatusValueByCode(user.status)}}</td>
         </tr>
     </ng-template>
 </p-table>
-<p-dialog header="Nuevo Usuario" [(visible)]="createUserDialog" [modal]="true" [style]="{ width: '850px' }"
+
+<p-dialog header="{{dialogHeader}}" [(visible)]="userDialog" [modal]="true" [style]="{ width: '850px' }"
     [draggable]="false" [resizable]="false" styleClass="p-fluid">
 
     <ng-template pTemplate="content">
@@ -68,8 +83,8 @@
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
+        <button pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
         <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
             (click)="hideDialog()"></button>
-        <button pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
     </ng-template>
 </p-dialog>
