@@ -7,7 +7,8 @@
                 (click)="openNew()"></button>
             <button pButton pRipple label="Editar" icon="pi pi-pencil" class="p-button-info mr-2"
                 (click)="openEdit(user)"></button>
-            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger mr-2"></button>
+            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger mr-2" [disabled]="!user"
+                (click)="deleteUser()"></button>
             <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help ml-auto"></button>
         </div>
     </ng-template>
@@ -88,3 +89,5 @@
             (click)="hideDialog()"></button>
     </ng-template>
 </p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

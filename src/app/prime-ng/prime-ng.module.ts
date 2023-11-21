@@ -10,6 +10,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { DropdownModule } from 'primeng/dropdown';
     ToolbarModule,
     ToastModule,
     DialogModule,
-    DropdownModule
+    DropdownModule,
+    ConfirmDialogModule,
   ]
 })
 export class PrimeNgModule { }
