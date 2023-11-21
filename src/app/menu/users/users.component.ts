@@ -3,12 +3,13 @@ import { ListElement } from 'src/app/models/list-elements';
 import { LoginDTO } from 'src/app/models/userDTO';
 import { UserService } from 'src/app/services/user/user.service';
 
-import { Message } from 'primeng/api';
+import { ConfirmationService, Message } from 'primeng/api';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
+  providers: [ConfirmationService]
 })
 export class UsersComponent {
   messages: Message[] = [];
@@ -30,6 +31,7 @@ export class UsersComponent {
 
   constructor(
     private userService: UserService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -86,6 +88,21 @@ export class UsersComponent {
     this.users = [...this.users];
     this.userDialog = false;
     this.resetUser();
+  }
+
+  deleteUser() {
+    console.log('Entra a eliminar');
+    this.confirmationService.confirm({
+      message: `¿Desea eliminar el usuario ${this.user.userName}?`,
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        // TODO: Agregar servicio de eliminacion
+        this.users = this.users.filter((val) => val.userName !== this.user.userName);
+        this.user = {};
+        this.pushMessage('success', 'Usuario eliminado exitosamente')
+      }
+    });
   }
 
   findUserIndexById(userName: string): number {
