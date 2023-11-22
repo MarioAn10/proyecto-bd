@@ -56,8 +56,6 @@ export class UsersComponent {
   saveUser() {
     this.submitted = true;
 
-    console.log('Usuario del momento', this.user);
-
     if (this.user.userName?.trim()) {
       if (this.findUserIndexById(this.user.userName) !== -1) {
         // TODO: Modificar logica para consumir servicio
