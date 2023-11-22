@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LayoutComponent } from './layout/layout.component';
 import { UsersComponent } from './users/users.component';
+import { AuditComponent } from './audit/audit.component';
 
 const routes: Routes = [
     {
@@ -10,6 +11,7 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
             { path: 'users', component: UsersComponent },
+            { path: 'audit', component: AuditComponent },
             { path: '**', redirectTo: '' },
         ]
     }

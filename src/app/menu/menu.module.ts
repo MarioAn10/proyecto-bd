@@ -8,6 +8,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { UsersComponent } from './users/users.component';
 import { MenuRoutingModule } from './menu-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuditComponent } from './audit/audit.component';
 
 
 
@@ -15,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     LayoutComponent,
     UsersComponent,
+    AuditComponent,
   ],
   imports: [
     CommonModule,

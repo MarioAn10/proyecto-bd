@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { environments } from 'src/app/endpoints';
+
 import { LoginDTO } from '../../models/userDTO';
 
 @Injectable({
@@ -14,8 +16,10 @@ export class UserService {
   // Funcionalidad Dummy
   getUsersData(): LoginDTO[] {
     return [
+
       {
         userName: 'mmartinezg',
+        password: '12345678',
         name: 'Mario',
         address: 'Martinez García',
         email: 'mmartinezg@unbosque.edu.co',

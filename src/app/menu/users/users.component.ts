@@ -51,15 +51,6 @@ export class UsersComponent {
     this.userService.getUsers()
       .then(data => this.users = data)
       .catch(err => console.error('Error al cargar los usuarios', err));
-
-    this.cols = [
-      { field: 'userName', header: 'Usuario' },
-      { field: 'name', header: 'Nombre' },
-      { field: 'address', header: 'Apellido' },
-      { field: 'email', header: 'Correo' },
-      { field: 'type', header: 'Tipo' },
-      { field: 'status', header: 'Estado' },
-    ];
   }
 
   saveUser() {

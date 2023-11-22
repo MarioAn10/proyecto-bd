@@ -1,0 +1,24 @@
+<p-table #dt [value]="auditList" [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="caption">
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Usuario</th>
+            <th>Tipo Acción</th>
+            <th>Fecha del cambio</th>
+            <th>Valor anterior</th>
+            <th>Valor actual</th>
+            <th>Tabla Afectada</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-audit>
+        <tr>
+            <td>{{audit.user}}</td>
+            <td>{{audit.action}}</td>
+            <td>{{audit.dateChange}}</td>
+            <td>{{audit.previousValue}}</td>
+            <td>{{audit.newValue}}</td>
+            <td>{{audit.table}}</td>
+        </tr>
+    </ng-template>
+</p-table>
