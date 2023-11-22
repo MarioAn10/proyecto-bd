@@ -1,14 +1,53 @@
-<p-messages [(value)]="messages" [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'"></p-messages>
-<p-table selectionMode="single" [value]="users" [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }"
-    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+<p-messages 
+    [(value)]="messages" 
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'500ms'">
+</p-messages>
+<p-table 
+    #dt 
+    selectionMode="single" 
+    [value]="users" 
+    [globalFilterFields]="['userName', 'name', 'address', 'email']"
+    [scrollable]="true" 
+    [tableStyle]="{ 'min-width': '50rem' }" 
+    (onRowSelect)="onRowSelect($event)"
+    (onRowUnselect)="onRowUnselect($event)">
+
     <ng-template pTemplate="caption">
         <div class="flex">
-            <button pButton pRipple label="Agregar" icon="pi pi-plus" class="p-button-success mr-2"
-                (click)="openNew()"></button>
-            <button pButton pRipple label="Editar" icon="pi pi-pencil" class="p-button-info mr-2"
-                (click)="openEdit(user)"></button>
-            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger mr-2" [disabled]="!user"
-                (click)="deleteUser()"></button>
+            <button 
+                pButton 
+                pRipple 
+                label="Agregar" 
+                icon="pi pi-plus" 
+                class="p-button-success mr-2"
+                (click)="openNew()">
+            </button>
+            <button 
+                pButton 
+                pRipple 
+                label="Editar" 
+                icon="pi pi-pencil" 
+                class="p-button-info mr-2"
+                (click)="openEdit(user)">
+            </button>
+            <button 
+                pButton 
+                pRipple 
+                label="Eliminar" 
+                icon="pi pi-trash" 
+                class="p-button-danger mr-2" 
+                [disabled]="!user"
+                (click)="deleteUser()">
+            </button>
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input 
+                    pInputText 
+                    type="text" 
+                    (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                    placeholder="Buscar..." />
+            </span>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -23,7 +62,11 @@
             <th>Estado</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-user let-types let-statuses>
+    <ng-template 
+        pTemplate="body" 
+        let-user 
+        let-types 
+        let-statuses>
         <tr>
             <td>
                 <p-tableRadioButton [value]="user"></p-tableRadioButton>
