@@ -40,7 +40,6 @@ export class UsersComponent {
       { name: 'Piloto', code: 'P' },
       { name: 'Auxiliar de vuelo', code: 'AV' },
       { name: 'Administrativo', code: 'A' },
-      { name: 'No encontrado', code: '' }
     ];
 
     this.statuses = [
@@ -85,6 +84,9 @@ export class UsersComponent {
       message: `¿Desea eliminar el usuario ${this.user.userName}?`,
       header: 'Confirmación',
       icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Aceptar',
+      rejectLabel: 'Cancelar',
+      closeOnEscape: true,
       accept: () => {
         // TODO: Agregar servicio de eliminacion
         this.users = this.users.filter((val) => val.userName !== this.user.userName);

@@ -38,7 +38,7 @@
                 label="Eliminar" 
                 icon="pi pi-trash" 
                 class="p-button-danger mr-2" 
-                [disabled]="!user"
+                [disabled]="!user || user.userName === '' || user.userName === undefined"
                 (click)="deleteUser()">
             </button>
             <span class="p-input-icon-left ml-auto">
@@ -82,54 +82,116 @@
     </ng-template>
 </p-table>
 
-<p-dialog header="{{dialogHeader}}" [(visible)]="userDialog" [modal]="true" [style]="{ width: '850px' }"
-    [draggable]="false" [resizable]="false" styleClass="p-fluid">
+<p-dialog 
+    header="{{dialogHeader}}" 
+    [(visible)]="userDialog" 
+    [modal]="true" 
+    [style]="{ width: '850px' }"
+    [draggable]="false" 
+    [resizable]="false" 
+    styleClass="p-fluid">
 
     <ng-template pTemplate="content">
         <div class="field">
             <label for="login">Login del Usuario</label>
-            <input type="text" pInputText id="userName" [(ngModel)]="user.userName" required autofocus />
+            <input 
+                type="text" 
+                pInputText 
+                id="userName" 
+                [(ngModel)]="user.userName" 
+                required 
+                autofocus 
+            />
             <small class="p-error" *ngIf="submitted && !user.userName">Debe ingresar el login del usuario.</small>
         </div>
         <div class="formgrid grid">
             <div class="field col">
                 <label for="name">Nombre del Usuario</label>
-                <input type="text" pInputText id="name" [(ngModel)]="user.name" required />
+                <input 
+                    type="text" 
+                    pInputText 
+                    id="name" 
+                    [(ngModel)]="user.name" 
+                    required 
+                />
                 <small class="p-error" *ngIf="submitted && !user.name">Debe ingresar el nombre del usuario.</small>
             </div>
             <div class="field col">
                 <label for="address">Apellido del Usuario</label>
-                <input type="text" pInputText id="address" [(ngModel)]="user.address" required />
+                <input 
+                    type="text" 
+                    pInputText 
+                    id="address" 
+                    [(ngModel)]="user.address" 
+                    required 
+                />
                 <small class="p-error" *ngIf="submitted && !user.address">Debe ingresar el apellido del usuario.</small>
             </div>
         </div>
         <div class="field">
             <label for="password">Contraseña del Usuario</label>
-            <input type="password" pInputText id="password" [(ngModel)]="user.password" required />
+            <input 
+                type="password" 
+                pInputText 
+                id="password" 
+                [(ngModel)]="user.password" 
+                required 
+            />
             <small class="p-error" *ngIf="submitted && !user.password">Debe ingresar la contraseña del usuario.</small>
         </div>
         <div class="field">
             <label for="email">Correo del Usuario</label>
-            <input type="text" pInputText id="email" [(ngModel)]="user.email" required email />
+            <input 
+                type="text" 
+                pInputText id="email" 
+                [(ngModel)]="user.email" 
+                required 
+                email 
+            />
             <small class="p-error" *ngIf="submitted && !user.email">Debe ingresar el correo del usuario.</small>
         </div>
         <div class="formgrid grid">
             <div class="field col">
                 <label for="type">Tipo de Usuario</label>
-                <p-dropdown [(ngModel)]="user.type" inputId="userType" [options]="types" optionLabel="name"
-                    optionValue="code" appendTo="body"></p-dropdown>
+                <p-dropdown 
+                    [(ngModel)]="user.type" 
+                    inputId="userType" 
+                    [options]="types" 
+                    optionLabel="name"
+                    optionValue="code" 
+                    appendTo="body">
+                </p-dropdown>
             </div>
             <div class="field col">
                 <label for="status">Estado del Usuario</label>
-                <p-dropdown [(ngModel)]="user.status" inputId="userStatus" [options]="statuses" optionLabel="name"
-                    optionValue="code" appendTo="body"></p-dropdown>
+                <p-dropdown 
+                    [(ngModel)]="user.status" 
+                    inputId="userStatus" 
+                    [options]="statuses" 
+                    optionLabel="name"
+                    optionValue="code" 
+                    appendTo="body">
+                </p-dropdown>
             </div>
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
-        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
-            (click)="hideDialog()"></button>
+        <button 
+            pButton 
+            pRipple 
+            label="Aceptar" 
+            icon="pi pi-check" 
+            class="p-button-text" 
+            (click)="saveUser()">
+        </button>
+        <button 
+            pButton 
+            pRipple 
+            label="Cancelar" 
+            icon="pi pi-times" 
+            class="p-button-text"
+            (click)="hideDialog()">
+        </button>
     </ng-template>
 </p-dialog>
 
