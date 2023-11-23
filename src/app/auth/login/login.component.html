@@ -5,22 +5,39 @@
       <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
         <p-panel header="Iniciar Sesión">
           <div class="field p-fluid mt-4">
-            <input pInputText type="text" placeholder="Usuario" formControlName="userName"
-              class="form-control w-full mb-3" name="userName">
+            <input 
+            pInputText 
+            type="text" 
+            placeholder="Usuario" 
+            formControlName="userName"
+            class="form-control w-full mb-3" 
+            name="userName">
 
             <div [hidden]="loginForm.controls['userName'].valid || !loginForm.controls['userName'].dirty">
               <small id="username-help" class="p-error">Ingrese su usuario.</small>
             </div>
           </div>
           <div class="field p-fluid mt-4">
-            <input pInputText type="password" placeholder="Contraseña" formControlName="password"
-              class="form-control w-full mb-3" name="password">
+            <input 
+              pInputText type="password" 
+              placeholder="Contraseña" 
+              formControlName="password"
+              class="form-control w-full mb-3" 
+              name="password">
             <small id="password-help" class="p-error"
-              [hidden]="loginForm.controls['password'].valid || !loginForm.controls['password'].dirty">Ingrese su
-              contraseña.</small>
+              [hidden]="loginForm.controls['password'].valid || !loginForm.controls['password'].dirty">
+              Ingrese su contraseña.
+            </small>
           </div>
           <div>
-            <button pButton type="submit" label="Ingresar" class="w-full" [disabled]="!loginForm.valid"></button>
+            <button 
+              pButton 
+              type="submit" 
+              label="Ingresar" 
+              class="w-full"
+              [disabled]="!loginForm.valid"
+              [loading]="isLoading">
+            </button>
           </div>
         </p-panel>
       </form>

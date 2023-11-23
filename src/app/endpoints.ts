@@ -1,3 +1,3 @@
 export const environments = {
-    baseUrl: 'endpoint_login',
+    baseUrl: 'http://localhost:5000/api/',
 }

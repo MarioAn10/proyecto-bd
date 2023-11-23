@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { Observable } from 'rxjs';
+
 import { environments } from 'src/app/endpoints';
 
 import { LoginDTO } from '../../models/userDTO';
@@ -9,9 +11,26 @@ import { LoginDTO } from '../../models/userDTO';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = environments.baseUrl;
+  private userUrl = `${environments.baseUrl}User/`;
 
   constructor(private http: HttpClient) { }
+
+  public getUsers(): Observable<any> {
+    return this.http.post(`${this.userUrl}all`, null);
+  }
+
+  public addUser(user: LoginDTO): Observable<any> {
+    return this.http.post(`${this.userUrl}create`, user, { responseType: 'text', observe: 'response' });
+  }
+
+  public updateUser(user: LoginDTO): Observable<any> {
+    return this.http.put(`${this.userUrl}update`, user, { responseType: 'text', observe: 'response' });
+  }
+
+  public deleteUser(user: LoginDTO): Observable<any> {
+    return this.http.delete(`${this.userUrl}delete`, { responseType: 'text', observe: 'response', body: user });
+  }
+
 
   // Funcionalidad Dummy
   getUsersData(): LoginDTO[] {
@@ -47,16 +66,16 @@ export class UserService {
 
   // Aqui iria el servicio
   // Agregar tipo de retorno
-  getUsers() {
+  getUsersDummy() {
     return Promise.resolve(this.getUsersData());
   }
 
   // Funcionalidad dummy
-  addUser(users: LoginDTO[], newUser: LoginDTO) {
+  addUserDummy(users: LoginDTO[], newUser: LoginDTO) {
     return Promise.resolve(this.addUserData(users, newUser));
   }
 
-  addUserData(users: LoginDTO[], newUser: LoginDTO) {
+  private addUserData(users: LoginDTO[], newUser: LoginDTO) {
     users.push(newUser);
   }
 }

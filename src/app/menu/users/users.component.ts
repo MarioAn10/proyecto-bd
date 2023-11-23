@@ -14,8 +14,9 @@ import { ConfirmationService, Message } from 'primeng/api';
 export class UsersComponent {
   messages: Message[] = [];
 
-  pattern: RegExp = new RegExp('/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;');
   isEmail: boolean = true;
+
+  isLoading: boolean;
 
   userDialog: boolean;
   dialogHeader: string;
@@ -27,7 +28,7 @@ export class UsersComponent {
   statuses: ListElement[];
 
   user: LoginDTO;
-  users: any[];
+  users: LoginDTO[];
   cols: any[];
 
   constructor(
@@ -36,33 +37,123 @@ export class UsersComponent {
   ) { }
 
   ngOnInit() {
-    // TODO: Validar implementacion - modelo
-    this.types = [
-      { name: 'Piloto', code: 'P' },
-      { name: 'Auxiliar de vuelo', code: 'AV' },
-      { name: 'Administrativo', code: 'A' },
-    ];
+    this.isLoading = true;
+    this.loadTypesStatuses();
+    this.getUsers();
+    // Funcionalidad dummy
+    //this.getUsersDummy();
+  }
 
-    this.statuses = [
-      { name: 'Activo', code: '1' },
-      { name: 'Inactivo', code: '0' }
-    ];
-
+  private getUsers() {
     this.userService.getUsers()
-      .then(data => this.users = data)
-      .catch(err => console.error('Error al cargar los usuarios', err));
+      .subscribe(
+        {
+          next: (res) => {
+            this.isLoading = false;
+            this.users = res;
+          },
+          error: (err) => console.error('Error: ', err)
+        }
+      );
   }
 
   saveUser() {
     this.submitted = true;
-
+    this.user.actionUser = this.getActionUser();
     if (this.user.userName?.trim()) {
       if (this.findUserIndexById(this.user.userName) !== -1) {
-        // TODO: Modificar logica para consumir servicio
+        this.userService.updateUser(this.user)
+          .subscribe(
+            {
+              next: (res) => {
+                if (res.status === 200) {
+                  this.pushMessage('success', 'Usuario editado exitosamente');
+                  this.getUsers();
+                } else {
+                  this.pushMessage('error', `'No fue posible crear el usuario`);
+                }
+              },
+              error: (err) => {
+                console.error('Error: ', err);
+                this.pushMessage('error', `'No fue posible crear el usuario: ${err}`);
+              }
+            }
+          );
+
+        //Funcionalidad dummy
+        //this.users[this.findUserIndexById(this.user.userName)] = this.user;
+        //this.pushMessage('success', 'Usuario editado exitosamente');
+      } else {
+        this.userService.addUser(this.user)
+          .subscribe(
+            {
+              next: (res) => {
+                if (res.status === 200) {
+                  this.pushMessage('success', 'Usuario creado exitosamente');
+                  this.getUsers();
+                } else {
+                  this.pushMessage('error', `'No fue posible crear el usuario`);
+                }
+              },
+              error: (err) => {
+                this.pushMessage('error', `'No fue posible crear el usuario: ${err}`);
+              }
+            }
+          );
+      }
+    }
+    //Funcionalidad dummy
+    //this.saveDummy();
+    this.userDialog = false;
+    this.resetUser();
+  }
+
+  public deleteUser() {
+    this.user.actionUser = this.getActionUser();
+    this.confirmationService.confirm({
+      message: `¿Desea eliminar el usuario <b>${this.user.userName}</b>?`,
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Aceptar',
+      rejectLabel: 'Cancelar',
+      closeOnEscape: true,
+      accept: () => {
+        this.userService.deleteUser(this.user)
+          .subscribe(
+            {
+              next: (res) => {
+                if (res.status === 200) {
+                  this.pushMessage('success', 'Usuario eliminado exitosamente');
+                  this.getUsers();
+                }
+              },
+              error: (err) => {
+                console.error('Error al eliminar: ', err);
+                this.pushMessage('error', 'Error al eliminar el usuario');
+              }
+            }
+          );
+        // Funcionalidad Dummy
+        //this.users = this.users.filter((val) => val.userName !== this.user.userName);
+        this.resetUser();
+        //this.pushMessage('success', 'Usuario eliminado exitosamente')
+      }
+    });
+  }
+
+  private getUsersDummy() {
+    this.userService.getUsersDummy()
+      .then(data => this.users = data)
+      .catch(err => console.error('Error al cargar los usuarios', err));
+  }
+
+  private saveDummy() {
+    if (this.user.userName?.trim()) {
+      if (this.findUserIndexById(this.user.userName) !== -1) {
         this.users[this.findUserIndexById(this.user.userName)] = this.user;
         this.pushMessage('success', 'Usuario editado exitosamente')
       } else {
-        this.userService.addUser(this.users, this.user)
+        this.userService.addUserDummy(this.users, this.user)
           .then(
             res => {
               this.pushMessage('success', 'Usuario creado exitosamente');
@@ -73,27 +164,6 @@ export class UsersComponent {
           );
       }
     }
-    // TODO: hacer reload de datos con el servicio
-    this.users = [...this.users];
-    this.userDialog = false;
-    this.resetUser();
-  }
-
-  deleteUser() {
-    this.confirmationService.confirm({
-      message: `¿Desea eliminar el usuario <b>${this.user.userName}</b>?`,
-      header: 'Confirmación',
-      icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'Aceptar',
-      rejectLabel: 'Cancelar',
-      closeOnEscape: true,
-      accept: () => {
-        // TODO: Agregar servicio de eliminacion
-        this.users = this.users.filter((val) => val.userName !== this.user.userName);
-        this.user = {};
-        this.pushMessage('success', 'Usuario eliminado exitosamente')
-      }
-    });
   }
 
   findUserIndexById(userName: string): number {
@@ -109,6 +179,19 @@ export class UsersComponent {
 
   resetUser() {
     this.user = {};
+  }
+
+  private loadTypesStatuses() {
+    this.types = [
+      { name: 'Piloto', code: 'P' },
+      { name: 'Auxiliar de vuelo', code: 'AV' },
+      { name: 'Administrativo', code: 'A' },
+    ];
+
+    this.statuses = [
+      { name: 'Activo', code: 'True', value: '1' },
+      { name: 'Inactivo', code: 'False', value: '0' }
+    ];
   }
 
   openNew() {
@@ -167,5 +250,9 @@ export class UsersComponent {
   getStatusValueByCode(code: string): string {
     const status = this.statuses.find(s => s.code === code);
     return status ? status.name : '';
+  }
+
+  private getActionUser(): string | null {
+    return JSON.parse(localStorage.getItem('usuario') || "");
   }
 }

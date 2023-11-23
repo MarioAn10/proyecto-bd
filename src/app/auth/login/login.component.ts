@@ -18,6 +18,7 @@ import { AuthService } from 'src/app/services/login/auth.service';
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public submitted: boolean;
+  public isLoading: boolean;
   private user: LoginDTO;
   private key: string = '123';
 
@@ -32,21 +33,50 @@ export class LoginComponent implements OnInit {
       'password': new FormControl('', Validators.required)
     });
     this.submitted = false;
+    this.isLoading = false;
   }
 
   onSubmit() {
-
-    console.log(this.loginForm.value);
     this.user = this.loginForm.value;
     this.submitted = true;
+    this.isLoading = true;
 
+    //this.dummyService();
+    this.login();
+  }
+
+  private login() {
+    this.authService.doAuthenticate(this.user)
+      .subscribe(
+        {
+          next: (res) => {
+            this.saveData('usuario', JSON.stringify(this.user.userName));
+            this.router.navigate(['menu/home']);
+          },
+          error: (err) => {
+            console.error('Error al loguear: ', err.status);
+            if (err.status === 401) {
+              this.messageService.add(
+                { severity: 'error', summary: 'Error', detail: 'Credenciales Incorrectas' }
+              );
+            } else {
+              this.messageService.add(
+                { severity: 'error', summary: 'Error', detail: 'Ocurrió un error al autenticarse. Consulte al administrado' }
+              )
+            }
+          }
+        }
+      );
+      this.isLoading = false;
+  }
+
+  private dummyService() {
     this.authService
       .login(this.user)
       .then(
         res => {
           if (res) {
-            // TO-DO: Agregar logica para localStorage codificada
-            this.saveData('usuario', this.encrypt(JSON.stringify(this.user)));
+            this.saveData('usuario', JSON.stringify(this.user.userName));
             this.router.navigate(['menu/home']);
           } else {
             this.messageService.add(

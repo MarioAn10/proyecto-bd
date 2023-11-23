@@ -9,8 +9,10 @@
     selectionMode="single" 
     [value]="users" 
     [globalFilterFields]="['userName', 'name', 'address', 'email']"
-    [scrollable]="true" 
-    [tableStyle]="{ 'min-width': '50rem' }" 
+    [scrollable]="true"
+    scrollHeight="400px"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [loading]="isLoading"
     (onRowSelect)="onRowSelect($event)"
     (onRowUnselect)="onRowUnselect($event)">
     
@@ -80,6 +82,9 @@
             <td>{{getTypeValueByCode(user.type)}}</td>
             <td>{{getStatusValueByCode(user.status)}}</td>
         </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">En total hay {{ users ? users.length : 0 }} registros.</div>
     </ng-template>
 </p-table>
 
@@ -171,7 +176,7 @@
                     inputId="userStatus" 
                     [options]="statuses" 
                     optionLabel="name"
-                    optionValue="code" 
+                    optionValue="value" 
                     appendTo="body">
                 </p-dropdown>
             </div>
