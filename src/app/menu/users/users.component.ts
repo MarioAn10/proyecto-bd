@@ -19,6 +19,7 @@ export class UsersComponent {
 
   userDialog: boolean;
   dialogHeader: string;
+  edit: boolean;
 
   submitted: boolean;
 
@@ -79,9 +80,8 @@ export class UsersComponent {
   }
 
   deleteUser() {
-    console.log('Entra a eliminar');
     this.confirmationService.confirm({
-      message: `¿Desea eliminar el usuario ${this.user.userName}?`,
+      message: `¿Desea eliminar el usuario <b>${this.user.userName}</b>?`,
       header: 'Confirmación',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Aceptar',
@@ -116,6 +116,7 @@ export class UsersComponent {
     this.dialogHeader = 'Nuevo Usuario';
     this.submitted = false;
     this.userDialog = true;
+    this.edit = false;
   }
 
   openEdit(user: LoginDTO) {
@@ -123,6 +124,7 @@ export class UsersComponent {
       this.dialogHeader = 'Editar Usuario';
       this.user = { ...user };
       this.submitted = false;
+      this.edit = true;
       this.userDialog = true;
     }
   }

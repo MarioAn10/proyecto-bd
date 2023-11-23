@@ -30,6 +30,7 @@
                 label="Editar" 
                 icon="pi pi-pencil" 
                 class="p-button-info mr-2"
+                [disabled]="!user || user.userName === '' || user.userName === undefined"
                 (click)="openEdit(user)">
             </button>
             <button 
@@ -98,7 +99,8 @@
                 type="text" 
                 pInputText 
                 id="userName" 
-                [(ngModel)]="user.userName" 
+                [(ngModel)]="user.userName"
+                [disabled]="edit" 
                 required 
                 autofocus 
             />
