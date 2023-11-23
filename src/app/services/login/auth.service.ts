@@ -8,7 +8,7 @@ import { environments } from 'src/app/endpoints';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl: string = environments.baseUrl;
+  private authUrl: string = `${environments.baseUrl}Login/login`;
   private dummyUser: LoginDTO = {
     userName: 'mmartinezg',
     password: 'Storm2020*'
@@ -16,22 +16,22 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  // Aca va la implementacion del servicio
-  // TO-DO: Validar responsabilidad de los metodos
-  doAutenticate(user: LoginDTO): boolean {
+
+  // Funcionalidad dummy
+  private doAutenticateDummy(user: LoginDTO): boolean {
     return ((user.userName === this.dummyUser.userName) && (user.password === this.dummyUser.password)) ? true : false;
   }
 
-  login(user: LoginDTO) {
-    return Promise.resolve(this.doAutenticate(user));
+  // Funcionalidad Dummy
+  public login(user: LoginDTO) {
+    return Promise.resolve(this.doAutenticateDummy(user));
   }
 
-  /*
-  login(loginDTO: LoginDTO): Observable<any> {
+
+  
+  public doAuthenticate(user: LoginDTO): Observable<any> {
     return this.http.post(
-      this.baseUrl + 'signin',
-      loginDTO,
+      this.authUrl, user
     );
   }
-  */
 }

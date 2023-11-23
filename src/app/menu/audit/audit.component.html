@@ -1,27 +1,47 @@
-<p-table #dt [value]="auditList" [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table 
+    #dt 
+    [value]="auditList" 
+    [scrollable]="true"
+    scrollHeight="400px"
+    [globalFilterFields]="['user', 'action', 'dateChange', 'table']"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [loading]="isLoading">
     <ng-template pTemplate="caption">
-        <div class="table-header">
-            Registros de Auditoría
-        </div>
+        <div class="flex">
+            <div class="table-header">
+                Registros de Auditoría
+            </div>
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input 
+                    pInputText 
+                    type="text" 
+                    (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                    placeholder="Buscar..." />
+            </span>
+        </div>  
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
             <th>Usuario</th>
             <th>Tipo Acción</th>
+            <th>Tabla Afectada</th>
             <th>Fecha del cambio</th>
             <th>Valor anterior</th>
             <th>Valor actual</th>
-            <th>Tabla Afectada</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-audit>
         <tr>
             <td>{{audit.user}}</td>
             <td>{{audit.action}}</td>
+            <td>{{audit.table}}</td>
             <td>{{audit.dateChange}}</td>
             <td>{{audit.previousValue}}</td>
             <td>{{audit.newValue}}</td>
-            <td>{{audit.table}}</td>
         </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">En total hay {{ auditList ? auditList.length : 0 }} registros.</div>
     </ng-template>
 </p-table>

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { environments } from 'src/app/endpoints';
 import { HttpClient } from '@angular/common/http';
 import { AuditDTO } from 'src/app/models/auditDTO';
@@ -8,9 +10,13 @@ import { AuditDTO } from 'src/app/models/auditDTO';
   providedIn: 'root'
 })
 export class AuditService {
-  private baseUrl = environments.baseUrl
+  private logUrl = `${environments.baseUrl}log/all`
 
   constructor(private http: HttpClient) { }
+
+  public getAuditLog(): Observable<any> {
+    return this.http.get(this.logUrl);
+  }
 
   private getAuditData(): AuditDTO[] {
     return [

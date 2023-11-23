@@ -1,4 +1,5 @@
 export interface LoginDTO {
+    id?: string | number;
     userName?: string;
     password?: string;
     name?: string;
@@ -6,4 +7,5 @@ export interface LoginDTO {
     email?: string;
     type?: string;
     status?: string;
+    actionUser?: string | null | undefined;
 }
