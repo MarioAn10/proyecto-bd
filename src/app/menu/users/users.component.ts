@@ -59,6 +59,7 @@ export class UsersComponent {
 
   saveUser() {
     this.submitted = true;
+    this.isLoading = true;
     this.user.actionUser = this.getActionUser();
     if (this.user.userName?.trim()) {
       if (this.findUserIndexById(this.user.userName) !== -1) {
@@ -68,14 +69,12 @@ export class UsersComponent {
               next: (res) => {
                 if (res.status === 200) {
                   this.pushMessage('success', 'Usuario editado exitosamente');
-                  this.getUsers();
                 } else {
-                  this.pushMessage('error', `'No fue posible crear el usuario`);
+                  this.pushMessage('error', `'No fue posible editar el usuario`);
                 }
               },
               error: (err) => {
-                console.error('Error: ', err);
-                this.pushMessage('error', `'No fue posible crear el usuario: ${err}`);
+                this.pushMessage('error', `'No fue posible editar el usuario: ${err.error}`);
               }
             }
           );
@@ -105,7 +104,9 @@ export class UsersComponent {
     //Funcionalidad dummy
     //this.saveDummy();
     this.userDialog = false;
+    this.isLoading = false;
     this.resetUser();
+    this.getUsers();
   }
 
   public deleteUser() {
