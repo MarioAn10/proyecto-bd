@@ -9,6 +9,7 @@ import { UsersComponent } from './users/users.component';
 import { MenuRoutingModule } from './menu-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuditComponent } from './audit/audit.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -17,6 +18,7 @@ import { AuditComponent } from './audit/audit.component';
     LayoutComponent,
     UsersComponent,
     AuditComponent,
+    HomeComponent,
   ],
   imports: [
     CommonModule,

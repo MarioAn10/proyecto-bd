@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           if (res) {
             // TO-DO: Agregar logica para localStorage codificada
             this.saveData('usuario', this.encrypt(JSON.stringify(this.user)));
-            this.router.navigate(['menu']);
+            this.router.navigate(['menu/home']);
           } else {
             this.messageService.add(
               { severity: 'error', summary: 'Error', detail: 'Credenciales Incorrectas' }

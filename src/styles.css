@@ -4,7 +4,22 @@
 @import 'primeflex/primeflex.css';
 @import "primeicons/primeicons.css";
 
-html, body {
+@import url('https://primefaces.org/primeng/showcase/resources/primeicons/primeicons.css');
+
+/* Aplica la fuente a los títulos y párrafos */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-family: 'Roboto', sans-serif;
+    /* Ajusta la fuente según sea necesario */
+}
+
+html,
+body {
     margin: 0;
     height: 100%;
 }
